@@ -1,0 +1,2 @@
+Logo placeholder — the app currently uses the 🏥 emoji in the sidebar brand.
+If you want a real logo, drop a logo.png file here and update app.py to render it.

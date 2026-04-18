@@ -1,0 +1,124 @@
+{
+  "guidelines": [
+    {
+      "name": "Blood Pressure Screening",
+      "grade": "A",
+      "recommendation": "Screen adults 18 and older. Annually for ages 40+ or those with risk factors; every 3-5 years for ages 18-39 with no risk factors.",
+      "frequency_months": 12,
+      "age_min": 18,
+      "age_max": 120,
+      "sex": "any",
+      "risk_factors": []
+    },
+    {
+      "name": "Cholesterol (Lipid Panel)",
+      "grade": "A",
+      "recommendation": "Adults 40-75 without known CVD should be screened; optional in younger adults with risk factors.",
+      "frequency_months": 60,
+      "age_min": 40,
+      "age_max": 75,
+      "sex": "any",
+      "risk_factors": []
+    },
+    {
+      "name": "Type 2 Diabetes / Prediabetes Screening",
+      "grade": "B",
+      "recommendation": "Screen adults aged 35-70 who are overweight or obese. Repeat every 3 years if normal.",
+      "frequency_months": 36,
+      "age_min": 35,
+      "age_max": 70,
+      "sex": "any",
+      "risk_factors": ["overweight", "prediabetes", "family history of diabetes"]
+    },
+    {
+      "name": "Colorectal Cancer Screening",
+      "grade": "A",
+      "recommendation": "Screen adults 45-75. Options: colonoscopy every 10 years, FIT annually, or Cologuard every 3 years.",
+      "frequency_months": 120,
+      "age_min": 45,
+      "age_max": 75,
+      "sex": "any",
+      "risk_factors": []
+    },
+    {
+      "name": "Breast Cancer Screening (Mammogram)",
+      "grade": "B",
+      "recommendation": "Women aged 40-74 should get a mammogram every 2 years. Earlier or more frequent if high risk.",
+      "frequency_months": 24,
+      "age_min": 40,
+      "age_max": 74,
+      "sex": "female",
+      "risk_factors": ["family history of breast cancer", "BRCA mutation"]
+    },
+    {
+      "name": "Cervical Cancer Screening (Pap/HPV)",
+      "grade": "A",
+      "recommendation": "Women 21-29: Pap every 3 years. Women 30-65: co-test (Pap+HPV) every 5 years or Pap alone every 3 years.",
+      "frequency_months": 36,
+      "age_min": 21,
+      "age_max": 65,
+      "sex": "female",
+      "risk_factors": []
+    },
+    {
+      "name": "Lung Cancer Screening (Low-dose CT)",
+      "grade": "B",
+      "recommendation": "Adults 50-80 with 20+ pack-year smoking history who currently smoke or quit within past 15 years. Annual LDCT.",
+      "frequency_months": 12,
+      "age_min": 50,
+      "age_max": 80,
+      "sex": "any",
+      "risk_factors": ["smoking history"]
+    },
+    {
+      "name": "Prostate Cancer Screening (PSA)",
+      "grade": "C",
+      "recommendation": "Men 55-69: individualized decision. Discuss benefits and harms with doctor.",
+      "frequency_months": 24,
+      "age_min": 55,
+      "age_max": 69,
+      "sex": "male",
+      "risk_factors": ["family history of prostate cancer", "African American"]
+    },
+    {
+      "name": "Bone Density (DEXA) Scan",
+      "grade": "B",
+      "recommendation": "Women 65+ and postmenopausal women with risk factors.",
+      "frequency_months": 24,
+      "age_min": 65,
+      "age_max": 120,
+      "sex": "female",
+      "risk_factors": ["postmenopausal", "family history of osteoporosis"]
+    },
+    {
+      "name": "Abdominal Aortic Aneurysm Screening",
+      "grade": "B",
+      "recommendation": "One-time ultrasound for men aged 65-75 who have ever smoked.",
+      "frequency_months": 9999,
+      "age_min": 65,
+      "age_max": 75,
+      "sex": "male",
+      "risk_factors": ["smoking history"]
+    },
+    {
+      "name": "Depression Screening",
+      "grade": "B",
+      "recommendation": "Screen all adults — especially pregnant/postpartum women and older adults.",
+      "frequency_months": 12,
+      "age_min": 18,
+      "age_max": 120,
+      "sex": "any",
+      "risk_factors": []
+    },
+    {
+      "name": "Flu Vaccine",
+      "grade": "A",
+      "recommendation": "Annual flu shot for everyone 6 months and older.",
+      "frequency_months": 12,
+      "age_min": 0,
+      "age_max": 120,
+      "sex": "any",
+      "risk_factors": []
+    }
+  ]
+}

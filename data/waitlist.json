@@ -1,0 +1,132 @@
+{
+  "clinic": {
+    "name": "Brazos Valley Community Health Center",
+    "address": "3370 S Texas Ave, Bryan, TX 77802",
+    "next_standard_slot_days": 94,
+    "booked_slots_today": 38,
+    "cancellation_rate_pct": 18
+  },
+  "waitlist": [
+    {
+      "id": "P-1042",
+      "name": "Maria Gonzalez",
+      "age": 58,
+      "condition": "Uncontrolled type 2 diabetes, A1C 11.2",
+      "acuity": 9,
+      "days_waiting": 34,
+      "scheduled_for": "2026-07-15",
+      "visit_type": "New patient — urgent",
+      "insurance": "Uninsured",
+      "zip": "77807",
+      "escalated": false,
+      "note": "Reports blurry vision and numbness in feet starting this week."
+    },
+    {
+      "id": "P-1088",
+      "name": "James Carter",
+      "age": 72,
+      "condition": "Heart failure follow-up, rising weight + ankle swelling",
+      "acuity": 10,
+      "days_waiting": 12,
+      "scheduled_for": "2026-06-21",
+      "visit_type": "Cardiology follow-up",
+      "insurance": "Medicare",
+      "zip": "77803",
+      "escalated": true,
+      "note": "Escalated yesterday — SOB on short walks."
+    },
+    {
+      "id": "P-1051",
+      "name": "Emily Nguyen",
+      "age": 29,
+      "condition": "Pregnancy — first prenatal visit",
+      "acuity": 8,
+      "days_waiting": 21,
+      "scheduled_for": "2026-07-02",
+      "visit_type": "OB first visit",
+      "insurance": "CHIP",
+      "zip": "77840",
+      "escalated": false,
+      "note": "Spotting reported Monday — OB triage flagged."
+    },
+    {
+      "id": "P-1109",
+      "name": "David Wu",
+      "age": 44,
+      "condition": "Elevated BP 168/102, no current meds",
+      "acuity": 7,
+      "days_waiting": 45,
+      "scheduled_for": "2026-07-22",
+      "visit_type": "Hypertension intake",
+      "insurance": "Marketplace",
+      "zip": "77802",
+      "escalated": false,
+      "note": "Home BP log shared via portal."
+    },
+    {
+      "id": "P-1112",
+      "name": "Sarah Patel",
+      "age": 9,
+      "condition": "Asthma — recurring nighttime cough",
+      "acuity": 6,
+      "days_waiting": 18,
+      "scheduled_for": "2026-06-30",
+      "visit_type": "Pediatric asthma",
+      "insurance": "CHIP",
+      "zip": "77845",
+      "escalated": false,
+      "note": "Mother reports 3 rescue-inhaler uses/week."
+    }
+  ],
+  "routine_holders": [
+    {
+      "id": "R-2201",
+      "name": "Michael Reed",
+      "age": 51,
+      "visit_type": "Annual wellness exam",
+      "scheduled_for": "2026-05-02",
+      "scheduled_time": "10:15 AM",
+      "flexibility_score": 0.82,
+      "preferred_reward": "$15 pharmacy credit",
+      "notes": "Has accepted swap offers twice before."
+    },
+    {
+      "id": "R-2240",
+      "name": "Linda Brooks",
+      "age": 63,
+      "visit_type": "Medication refill (stable)",
+      "scheduled_for": "2026-05-06",
+      "scheduled_time": "9:30 AM",
+      "flexibility_score": 0.74,
+      "preferred_reward": "$10 grocery voucher",
+      "notes": "Open to afternoon appointments."
+    },
+    {
+      "id": "R-2268",
+      "name": "Kenji Tanaka",
+      "age": 38,
+      "visit_type": "Routine follow-up (cholesterol)",
+      "scheduled_for": "2026-05-09",
+      "scheduled_time": "2:45 PM",
+      "flexibility_score": 0.61,
+      "preferred_reward": "$15 ride-share credit",
+      "notes": "Works remote — high flexibility."
+    },
+    {
+      "id": "R-2301",
+      "name": "Rachel Thompson",
+      "age": 47,
+      "visit_type": "Annual physical",
+      "scheduled_for": "2026-05-13",
+      "scheduled_time": "11:00 AM",
+      "flexibility_score": 0.55,
+      "preferred_reward": "$20 pharmacy credit",
+      "notes": "Has declined swaps once before."
+    }
+  ],
+  "live_cancellations": [
+    {"slot_time": "Today, 2:15 PM", "canceled_by": "R-2201 — Michael Reed", "reason": "Car trouble", "minutes_ago": 2},
+    {"slot_time": "Today, 4:40 PM", "canceled_by": "R-2368 — Kevin Chen", "reason": "Work conflict", "minutes_ago": 11},
+    {"slot_time": "Tomorrow, 9:00 AM", "canceled_by": "R-2419 — Ashley Morgan", "reason": "Childcare", "minutes_ago": 24}
+  ]
+}
