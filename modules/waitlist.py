@@ -1,4 +1,4 @@
-"""Module 7: Waitlist Fast-Track — AI-powered triage, incentivized swapping,
+"""Module 7: Waitlist Fast-Track - AI-powered triage, incentivized swapping,
 live cancellation catcher, and pre-care monitoring."""
 
 from __future__ import annotations
@@ -126,7 +126,7 @@ def _tab_swap(data: dict[str, Any]) -> None:
 
     if st.session_state.wl_accepted_swaps:
         reclaimed = len(st.session_state.wl_accepted_swaps)
-        st.success(f"🎉 {reclaimed} slot(s) freed — ~{reclaimed * 21} days earlier for {critical['name']}.")
+        st.success(f"🎉 {reclaimed} slot(s) freed - ~{reclaimed * 21} days earlier for {critical['name']}.")
 
 
 # ---------------- Tab 2: Live Cancellation Catcher ---------------- #
@@ -181,19 +181,19 @@ def _escalation_logic(severity: int, trend: str, days: int) -> tuple[str, str, s
     if severity >= 7 or trend == "Worse":
         return (
             "ESCALATED",
-            "Priority boosted — clinician notified.",
-            "Symptoms are getting worse. I've escalated your file — the clinic will reach out within 24 hours with an earlier visit or telehealth today.",
+            "Priority boosted - clinician notified.",
+            "Symptoms are getting worse. I've escalated your file - the clinic will reach out within 24 hours with an earlier visit or telehealth today.",
         )
     if severity >= 4 or (trend == "Same" and days > 21):
         return (
             "WATCH",
-            "Added to watch list — next check-in in 3 days.",
-            "Hanging in there — thanks. I'll check in again in 3 days. Tap 'Escalate now' if anything gets worse.",
+            "Added to watch list - next check-in in 3 days.",
+            "Hanging in there - thanks. I'll check in again in 3 days. Tap 'Escalate now' if anything gets worse.",
         )
     return (
         "STABLE",
         "Weekly cadence maintained.",
-        "Holding steady — great. I'll see you again next week.",
+        "Holding steady - great. I'll see you again next week.",
     )
 
 
@@ -274,7 +274,7 @@ def render() -> None:
     hero(
         icon="⏱️",
         title="Waitlist Fast-Track",
-        subtitle="AI triage that beats the 3-month wait — swap, catch cancellations, escalate when it matters.",
+        subtitle="AI triage that beats the 3-month wait - swap, catch cancellations, escalate when it matters.",
     )
     _init_state()
     data = st.session_state.wl_data

@@ -77,9 +77,9 @@ When the user describes their situation, you should:
 3. Explain WHY each program is a good match for their specific situation
 4. Provide clear next steps for each program (who to call, what to bring, how to apply)
 5. Use simple, plain language at a 6th-grade reading level
-6. If you detect emergency symptoms (chest pain, difficulty breathing, severe bleeding), immediately advise calling 911 and provide the nearest ER location (St. Joseph Health Bryan — 2801 Franciscan Dr, Bryan TX).
+6. If you detect emergency symptoms (chest pain, difficulty breathing, severe bleeding), immediately advise calling 911 and provide the nearest ER location (St. Joseph Health Bryan - 2801 Franciscan Dr, Bryan TX).
 
-Always be warm, empathetic, and actionable. Don't just list programs — explain why they matter for THIS person's situation.
+Always be warm, empathetic, and actionable. Don't just list programs - explain why they matter for THIS person's situation.
 
 Format your response with clear sections for each recommended program using markdown headers (###) and bullet points. End with a short, encouraging "next step" call to action.
 
@@ -176,7 +176,7 @@ def _call_anthropic(system_prompt: str, history: list[dict], max_tokens: int) ->
 
 def _dispatch(system_prompt: str, history: list[dict], max_tokens: int) -> str:
     if not has_api_key():
-        raise RuntimeError("No API key configured — use Demo Mode or add a key to .env.")
+        raise RuntimeError("No API key configured - use Demo Mode or add a key to .env.")
     try:
         if _openrouter_key():
             return _call_openrouter(system_prompt, history, max_tokens)

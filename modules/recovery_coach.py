@@ -1,7 +1,8 @@
-"""Module 5: Recovery Coach — turns discharge instructions into a daily plan."""
+"""Module 5: Recovery Coach - turns discharge instructions into a daily plan."""
 
 from __future__ import annotations
 
+from io import BytesIO
 from typing import Any
 
 import streamlit as st
@@ -11,20 +12,19 @@ from utils.ai_engine import (
     call_claude,
     extract_json,
 )
-from utils.pdf_generator import generate_recovery_plan_pdf
-from utils.ui import hero, section_label
+from utils.ui import hero
 
-SAMPLE_DISCHARGE = """DISCHARGE INSTRUCTIONS — St. Joseph Health Bryan
+SAMPLE_DISCHARGE = """DISCHARGE INSTRUCTIONS - St. Joseph Health Bryan
 
 Patient: John Smith, 64 y/o male
 Admitting diagnosis: Community-acquired pneumonia (right lower lobe)
 Length of stay: 3 days
 
 MEDICATIONS AT DISCHARGE:
-1. Amoxicillin-clavulanate 875mg-125mg — 1 tablet by mouth twice daily for 7 days
-2. Azithromycin 250mg — 1 tablet by mouth once daily for 4 more days
-3. Guaifenesin 400mg — 1 tablet every 4 hours as needed for cough
-4. Acetaminophen 500mg — up to every 6 hours for fever or aches (max 3000mg/day)
+1. Amoxicillin-clavulanate 875mg-125mg - 1 tablet by mouth twice daily for 7 days
+2. Azithromycin 250mg - 1 tablet by mouth once daily for 4 more days
+3. Guaifenesin 400mg - 1 tablet every 4 hours as needed for cough
+4. Acetaminophen 500mg - up to every 6 hours for fever or aches (max 3000mg/day)
 
 ACTIVITY:
 - Rest for the first 3 days. Short walks around the house OK.
@@ -79,7 +79,7 @@ def _demo_plan() -> dict[str, Any]:
                     {"name": "Guaifenesin", "dose": "400 mg", "schedule": "As needed for cough"},
                 ],
                 "activity": "Short walks 5-10 minutes, 2-3× a day. Avoid stairs if breathless.",
-                "diet": "Regular meals — protein and vegetables to rebuild strength.",
+                "diet": "Regular meals - protein and vegetables to rebuild strength.",
                 "red_flags": ["Fever returns", "Cough getting worse instead of better", "New confusion"],
             },
             {
@@ -117,23 +117,70 @@ def _run_plan(discharge_text: str) -> dict[str, Any]:
 
 def _checkin_response(status: str) -> str:
     return {
-        "Better": "Great news. Keep the same routine — steady improvement is the goal. Stay on your medications until they're finished even if you feel back to normal.",
-        "Same": "Recovery can plateau for a day or two — that's normal. Keep resting and hydrating. If you're still in the same spot in 48 hours, call your clinic.",
-        "Worse": "Please call your doctor today. If you have any of the emergency symptoms listed below, call 911 — don't wait.",
+        "Better": "Great news. Keep the same routine - steady improvement is the goal. Stay on your medications until they're finished even if you feel back to normal.",
+        "Same": "Recovery can plateau for a day or two - that's normal. Keep resting and hydrating. If you're still in the same spot in 48 hours, call your clinic.",
+        "Worse": "Please call your doctor today. If you have any of the emergency symptoms listed below, call 911 - don't wait.",
         "New symptoms": "Write down what's new and when it started, then call your doctor. If it's on the emergency list (chest pain, severe shortness of breath, coughing blood, confusion), call 911 now.",
     }.get(status, "Tell me a bit more and I can guide you.")
+
+
+def _extract_pdf(raw: bytes) -> str:
+    from pypdf import PdfReader
+    reader = PdfReader(BytesIO(raw))
+    return "\n".join((page.extract_text() or "") for page in reader.pages).strip()
+
+
+def _extract_docx(raw: bytes) -> str:
+    from docx import Document
+    doc = Document(BytesIO(raw))
+    return "\n".join(p.text for p in doc.paragraphs if p.text).strip()
+
+
+def _extract_upload(uploaded) -> str:
+    name = (uploaded.name or "").lower()
+    raw = uploaded.getvalue()
+    if name.endswith(".pdf"):
+        return _extract_pdf(raw)
+    if name.endswith(".docx"):
+        return _extract_docx(raw)
+    if name.endswith(".txt"):
+        return raw.decode("utf-8", errors="replace").strip()
+    raise ValueError("Unsupported file type - use PDF, DOCX, or TXT.")
 
 
 def render() -> None:
     hero(
         icon="🏥",
         title="Recovery Coach",
-        subtitle="Paste discharge instructions — I'll build a day-by-day plan you can follow.",
+        subtitle="Paste discharge instructions - I'll build a day-by-day plan you can follow.",
     )
 
-    col_a, col_b = st.columns([1, 3])
-    if col_a.button("📄 Load sample discharge", use_container_width=True):
+    col_sample, col_upload, _ = st.columns([1, 2, 1])
+    if col_sample.button("📄 Load sample discharge", use_container_width=True):
         st.session_state.discharge_text = SAMPLE_DISCHARGE
+        st.session_state.pop("discharge_upload_token", None)
+
+    uploaded = col_upload.file_uploader(
+        "⬆️ Upload your discharge (PDF / Word / TXT)",
+        type=["pdf", "docx", "txt"],
+        accept_multiple_files=False,
+        key="discharge_upload",
+        label_visibility="visible",
+    )
+    if uploaded is not None:
+        # Only re-extract when a new file is dropped (compare by name+size)
+        token = f"{uploaded.name}:{uploaded.size}"
+        if st.session_state.get("discharge_upload_token") != token:
+            try:
+                extracted = _extract_upload(uploaded)
+                if extracted:
+                    st.session_state.discharge_text = extracted
+                    st.session_state.discharge_upload_token = token
+                    st.success(f"✅ Loaded **{uploaded.name}** - scroll down to review.")
+                else:
+                    st.warning("Couldn't find any text in that file. Try pasting the instructions instead.")
+            except Exception as err:
+                st.error(f"Couldn't read that file: {err}")
 
     text = st.text_area(
         "Paste discharge instructions here",
@@ -163,7 +210,7 @@ def render() -> None:
             if meds:
                 st.markdown("**💊 Medications**")
                 for med in meds:
-                    st.markdown(f"- **{med.get('name', '')}** {med.get('dose', '')} — {med.get('schedule', '')}")
+                    st.markdown(f"- **{med.get('name', '')}** {med.get('dose', '')} - {med.get('schedule', '')}")
             st.markdown(f"**🚶 Activity:** {phase.get('activity', '')}")
             st.markdown(f"**🍽️ Diet:** {phase.get('diet', '')}")
             red_flags = phase.get("red_flags", [])
@@ -176,14 +223,6 @@ def render() -> None:
     st.markdown("#### 🚨 Call 911 if you have:")
     for sym in plan.get("emergency_symptoms", []):
         st.markdown(f"- {sym}")
-
-    pdf_bytes = generate_recovery_plan_pdf(plan)
-    st.download_button(
-        "⬇️ Download recovery plan (PDF)",
-        data=pdf_bytes,
-        file_name="MedBridge_Recovery_Plan.pdf",
-        mime="application/pdf",
-    )
 
     st.markdown("---")
     st.markdown("### 📞 Daily check-in")

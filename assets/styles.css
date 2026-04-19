@@ -1,5 +1,5 @@
 /* =====================================================================
-   MedBridge AI — Design System
+   MedBridge AI - Design System
    A polished, healthcare-warm visual language built on top of Streamlit.
    ===================================================================== */
 
@@ -37,7 +37,7 @@
 }
 
 /* ---------- Global typography & background ----------
-   Type scale (use ONLY these — do not invent new sizes):
+   Type scale (use ONLY these - do not invent new sizes):
      --fs-display: 30px  (hero h1)
      --fs-h2:      22px
      --fs-h3:      18px
@@ -58,7 +58,7 @@
     --lh-normal: 1.55;
 }
 
-/* Target text-bearing elements only — NEVER override icon spans */
+/* Target text-bearing elements only - NEVER override icon spans */
 html, body, .stApp,
 .stMarkdown, .stMarkdown p, .stMarkdown li, .stMarkdown a, .stMarkdown strong, .stMarkdown em,
 button, input, textarea, label, select,
@@ -98,7 +98,7 @@ h1, h2, h3, h4, .mb-display {
 .stMarkdown h3 { font-size: var(--fs-h3) !important; margin: 14px 0 6px 0 !important; }
 .stMarkdown h4 { font-size: var(--fs-h4) !important; margin: 10px 0 4px 0 !important; }
 
-/* PRESERVE material icon fonts — Streamlit uses these for expander chevrons, tab arrows, etc. */
+/* PRESERVE material icon fonts - Streamlit uses these for expander chevrons, tab arrows, etc. */
 .material-symbols-rounded,
 .material-symbols-outlined,
 .material-symbols-sharp,
@@ -366,6 +366,127 @@ h1.mb-page-title, .mb-page-title {
     box-shadow: var(--mb-shadow-sm) !important;
     transition: all 0.15s ease;
 }
+
+/* ---------- Radio groups styled as pill buttons ----------
+   Used on Screen Check for Sex / Smoking / Drinking so the selected value
+   is always visible. */
+div[role="radiogroup"] {
+    gap: 8px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    padding-top: 2px !important;
+}
+div[role="radiogroup"] > label {
+    background: #FFFFFF !important;
+    border: 1.5px solid var(--mb-divider) !important;
+    border-radius: 999px !important;
+    padding: 9px 18px !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0 !important;
+    box-shadow: var(--mb-shadow-sm) !important;
+}
+div[role="radiogroup"] > label:hover {
+    border-color: var(--mb-accent) !important;
+    background: var(--mb-bg) !important;
+    transform: translateY(-1px);
+}
+div[role="radiogroup"] > label > div:first-child {
+    display: none !important;  /* hide the native radio dot */
+}
+div[role="radiogroup"] > label p,
+div[role="radiogroup"] > label div[data-testid="stMarkdownContainer"] p {
+    color: var(--mb-ink) !important;
+    -webkit-text-fill-color: var(--mb-ink) !important;
+    font-size: var(--fs-body) !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+}
+/* Selected state: brand gradient pill */
+div[role="radiogroup"] > label:has(input:checked) {
+    background: var(--mb-gradient) !important;
+    border-color: transparent !important;
+    box-shadow: 0 6px 14px rgba(46, 134, 193, 0.35) !important;
+}
+div[role="radiogroup"] > label:has(input:checked) p,
+div[role="radiogroup"] > label:has(input:checked) div[data-testid="stMarkdownContainer"] p {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* ---------- Selectbox (Streamlit wraps BaseWeb) ----------
+   BaseWeb sets `-webkit-text-fill-color` on its styled-components which
+   overrides `color`. We target the WHOLE subtree (except SVGs) so the
+   selected value renders in dark ink on the closed field. */
+
+/* The universal hammer - color ALL text inside a selectbox dark. */
+html body .stSelectbox *:not(svg):not(path),
+html body div[data-baseweb="select"] *:not(svg):not(path),
+html body .stSelectbox,
+html body div[data-baseweb="select"] {
+    color: #1C2833 !important;
+    -webkit-text-fill-color: #1C2833 !important;
+}
+
+/* The hidden <input> where BaseWeb stores the selected value. */
+html body .stSelectbox input,
+html body div[data-baseweb="select"] input,
+html body input[role="combobox"],
+html body input[aria-autocomplete],
+html body input[aria-autocomplete="list"] {
+    color: #1C2833 !important;
+    -webkit-text-fill-color: #1C2833 !important;
+    caret-color: #1C2833 !important;
+    opacity: 1 !important;
+}
+
+/* Keep the caret icon muted grey, not dark. */
+html body .stSelectbox svg,
+html body .stSelectbox svg *,
+html body div[data-baseweb="select"] svg,
+html body div[data-baseweb="select"] svg * {
+    color: #5D6D7E !important;
+    fill: #5D6D7E !important;
+    -webkit-text-fill-color: initial !important;
+}
+
+/* The open dropdown (BaseWeb portals it to <body>, outside .stApp) */
+[data-baseweb="popover"],
+[data-baseweb="popover"] *,
+[data-baseweb="menu"],
+[data-baseweb="menu"] *,
+[role="listbox"],
+[role="listbox"] *,
+[role="option"],
+[role="option"] * {
+    color: #1C2833 !important;
+    -webkit-text-fill-color: #1C2833 !important;
+    font-size: var(--fs-body) !important;
+    font-weight: 500 !important;
+}
+[data-baseweb="popover"] [role="listbox"],
+[data-baseweb="menu"] {
+    background: #FFFFFF !important;
+}
+[role="option"] {
+    padding: 10px 14px !important;
+}
+[role="option"]:hover,
+[role="option"][aria-selected="true"] {
+    background-color: #EBF5FB !important;
+    color: #1B4F72 !important;
+    -webkit-text-fill-color: #1B4F72 !important;
+}
+[data-baseweb="popover"] {
+    border-radius: 12px !important;
+    box-shadow: 0 12px 32px rgba(27, 79, 114, 0.18) !important;
+    border: 1px solid var(--mb-divider) !important;
+    overflow: hidden !important;
+}
 .stTextInput input:focus,
 .stNumberInput input:focus,
 .stTextArea textarea:focus {
@@ -544,19 +665,89 @@ label, .stTextInput label, .stSelectbox label, .stNumberInput label, .stTextArea
     max-width: 780px;
 }
 
-/* User messages — align right, brand gradient */
+/* User messages - align right, brand gradient */
 [data-testid="stChatMessage"]:has(img[src*="user"]),
 [data-testid="stChatMessage"][aria-label*="user"],
 [data-testid="stChatMessage"][data-user="true"] {
     flex-direction: row-reverse !important;
 }
 
-/* Chat input */
+/* ---------- Chat input dock & textarea ----------
+   Streamlit's bottom dock paints a dark bar in auto-theme mode; we force
+   every plausible wrapper to transparent so only our styled input shows. */
+html body [data-testid="stBottomBlockContainer"],
+html body [data-testid="stBottomBlockContainer"] > div,
+html body [data-testid="stBottomBlockContainer"] > div > div,
+html body [data-testid="stBottom"],
+html body [data-testid="stBottom"] > div,
+html body section[data-testid="stBottom"],
+html body section[data-testid="stBottom"] > div,
+html body [data-testid="stChatInputContainer"],
+html body [data-testid="stChatInputContainer"] > div,
+html body div[class*="stBottomBlock"],
+html body div[class*="stBottomBlock"] > div,
+html body .stApp > div:last-child,
+html body footer,
+html body footer > div {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+html body [data-testid="stBottomBlockContainer"] {
+    padding: 8px 12px 18px 12px !important;
+    max-width: 1180px !important;
+    margin: 0 auto !important;
+}
+
+/* The chat input: a floating premium card */
 [data-testid="stChatInput"], .stChatInput {
-    border: 1px solid var(--mb-divider) !important;
-    border-radius: 14px !important;
-    box-shadow: var(--mb-shadow);
-    background: var(--mb-surface) !important;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FBFEFF 100%) !important;
+    border: 1.5px solid var(--mb-divider) !important;
+    border-radius: 18px !important;
+    box-shadow:
+        0 1px 2px rgba(27, 79, 114, 0.04),
+        0 20px 48px rgba(27, 79, 114, 0.14) !important;
+    transition: all 0.18s ease !important;
+    padding: 4px !important;
+}
+[data-testid="stChatInput"]:focus-within, .stChatInput:focus-within {
+    border-color: var(--mb-accent) !important;
+    box-shadow:
+        0 0 0 4px rgba(46, 134, 193, 0.15),
+        0 20px 48px rgba(27, 79, 114, 0.16) !important;
+    transform: translateY(-1px);
+}
+[data-testid="stChatInput"] textarea {
+    color: var(--mb-ink) !important;
+    background: transparent !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    padding: 12px 14px !important;
+    caret-color: var(--mb-accent);
+}
+[data-testid="stChatInput"] textarea::placeholder {
+    color: var(--mb-subtle) !important;
+    opacity: 1 !important;
+    font-weight: 400 !important;
+}
+/* Send-button arrow */
+[data-testid="stChatInput"] button {
+    background: var(--mb-gradient) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    width: 40px !important;
+    height: 40px !important;
+    margin: 4px !important;
+    transition: transform 0.15s ease !important;
+    box-shadow: 0 4px 10px rgba(46, 134, 193, 0.35) !important;
+}
+[data-testid="stChatInput"] button:hover {
+    transform: scale(1.06);
+}
+[data-testid="stChatInput"] button svg {
+    fill: white !important;
+    color: white !important;
 }
 
 /* ---------- Tabs ---------- */
@@ -709,6 +900,73 @@ div[data-testid="stAlert"] p {
     color: var(--mb-muted);
     margin-top: 4px;
     font-weight: 500;
+}
+
+/* ---------- Navigator: floating chatbot bubble + example chips ---------- */
+
+/* The floating "How can I help?" bubble at the bottom-right.
+   Sits above the Streamlit chat_input dock (which is ~80px tall). */
+.mb-chatbot-fab {
+    position: fixed;
+    bottom: 140px;          /* clears the chat-input dock and the footer banner */
+    right: 26px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 9999;
+    pointer-events: none;   /* purely decorative; doesn't block clicks below */
+}
+@media (max-width: 900px) {
+    .mb-chatbot-fab { bottom: 160px; right: 14px; }
+    .mb-chatbot-fab .mb-chatbot-label { display: none; }
+}
+.mb-chatbot-fab .mb-chatbot-label {
+    background: #ffffff;
+    color: var(--mb-primary) !important;
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: var(--fs-body) !important;
+    font-weight: 600 !important;
+    white-space: nowrap;
+    box-shadow: 0 8px 22px rgba(27, 79, 114, 0.16);
+    border: 1px solid var(--mb-divider);
+    order: 1;
+}
+.mb-chatbot-fab .mb-chatbot-icon {
+    order: 2;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: var(--mb-gradient);
+    color: #ffffff !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    box-shadow: 0 12px 28px rgba(46, 134, 193, 0.45);
+    position: relative;
+}
+/* Pulsing ring around the round icon */
+.mb-chatbot-fab .mb-chatbot-icon::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(46, 134, 193, 0.45);
+    animation: mb-fab-pulse 2.2s ease-out infinite;
+    z-index: -1;
+}
+@keyframes mb-fab-pulse {
+    0%   { transform: scale(1);   opacity: 0.55; }
+    100% { transform: scale(1.7); opacity: 0;    }
+}
+
+/* Example-question chips in the Navigator */
+.nav-examples-label {
+    font-size: var(--fs-body);
+    font-weight: 600;
+    color: var(--mb-primary);
+    margin: 8px 0 10px 0;
 }
 
 /* Scrollbars (webkit) */

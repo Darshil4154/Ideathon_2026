@@ -28,7 +28,7 @@
     },
     {
       "id": "tx-hhsc",
-      "name": "Texas Health and Human Services (HHSC) — Brazos County Office",
+      "name": "Texas Health and Human Services (HHSC) - Brazos County Office",
       "type": "Government Assistance",
       "address": "4001 E 29th St Ste 190, Bryan, TX 77802",
       "phone": "2-1-1 or (877) 541-7905",
@@ -67,7 +67,7 @@
     },
     {
       "id": "st-joseph",
-      "name": "St. Joseph Health (CHI) — Financial Assistance Program",
+      "name": "St. Joseph Health (CHI) - Financial Assistance Program",
       "type": "Charity Care",
       "address": "2801 Franciscan Dr, Bryan, TX 77802",
       "phone": "(979) 776-3777",
@@ -80,7 +80,7 @@
     },
     {
       "id": "baylor-bcs",
-      "name": "Baylor Scott & White — College Station Financial Assistance",
+      "name": "Baylor Scott & White - College Station Financial Assistance",
       "type": "Charity Care",
       "address": "700 Scott & White Dr, College Station, TX 77845",
       "phone": "(979) 207-0100",
@@ -113,7 +113,7 @@
       "hours": "Mon-Fri 9am-5pm EST",
       "website": "https://www.needymeds.org",
       "services": ["Patient assistance program database", "Free drug discount card", "Disease-based assistance programs"],
-      "eligibility": "Varies by program — many available to uninsured or underinsured. Free drug card available to everyone.",
+      "eligibility": "Varies by program - many available to uninsured or underinsured. Free drug card available to everyone.",
       "languages": ["English", "Spanish"],
       "tags": ["medication", "prescription", "national", "uninsured", "discount"]
     },
@@ -121,12 +121,12 @@
       "id": "goodrx",
       "name": "GoodRx Prescription Savings",
       "type": "Medication Discount",
-      "address": "Online — accepted at most US pharmacies",
+      "address": "Online - accepted at most US pharmacies",
       "phone": "(855) 268-2822",
       "hours": "24/7 online",
       "website": "https://www.goodrx.com",
       "services": ["Free prescription coupons", "Price comparison across pharmacies", "Gold membership for extra savings"],
-      "eligibility": "Open to everyone — no insurance needed. Free to use.",
+      "eligibility": "Open to everyone - no insurance needed. Free to use.",
       "languages": ["English", "Spanish"],
       "tags": ["medication", "prescription", "discount", "uninsured", "free"]
     },
@@ -139,7 +139,7 @@
       "hours": "24/7 call center",
       "website": "https://www.healthcare.gov",
       "services": ["ACA health insurance plans", "Income-based premium subsidies", "Cost-sharing reductions"],
-      "eligibility": "Most US citizens and legal residents. Subsidies available for households earning 100-400% FPL (expanded through 2025 — no upper cap on subsidy eligibility).",
+      "eligibility": "Most US citizens and legal residents. Subsidies available for households earning 100-400% FPL (expanded through 2025 - no upper cap on subsidy eligibility).",
       "languages": ["English", "Spanish", "and 150+ languages via interpreter"],
       "tags": ["insurance", "aca", "subsidy", "marketplace", "self-employed"]
     },

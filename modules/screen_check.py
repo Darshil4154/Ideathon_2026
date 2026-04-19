@@ -1,4 +1,4 @@
-"""Module 4: Preventive Screen Check — USPSTF-based screening timeline."""
+"""Module 4: Preventive Screen Check - USPSTF-based screening timeline."""
 
 from __future__ import annotations
 
@@ -15,8 +15,7 @@ from utils.ai_engine import (
     extract_json,
     load_uspstf_guidelines,
 )
-from utils.pdf_generator import generate_screening_report_pdf
-from utils.ui import hero, section_label
+from utils.ui import hero
 
 STATUS_COLORS = {
     "OVERDUE": "#B03A2E",
@@ -31,6 +30,7 @@ def _demo_profile() -> dict[str, Any]:
         "age": 52,
         "sex": "Female",
         "smoking": "Never smoked",
+        "drinking": "Occasional",
         "family_history": ["Diabetes", "Breast cancer"],
         "conditions": ["Prediabetes"],
     }
@@ -91,7 +91,7 @@ def _demo_analysis(profile: dict[str, Any]) -> dict[str, Any]:
         "screenings": screenings,
         "top_priority": (
             "Given your family history of diabetes and being prediabetic, **A1C and fasting glucose testing** is the "
-            "#1 priority — it catches the shift from prediabetes to diabetes early. Your family history of breast cancer "
+            "#1 priority - it catches the shift from prediabetes to diabetes early. Your family history of breast cancer "
             "also makes an **updated mammogram** important."
         ),
         "lifestyle_notes": (
@@ -103,21 +103,21 @@ def _demo_analysis(profile: dict[str, Any]) -> dict[str, Any]:
 
 def _why_matters(name: str, profile: dict[str, Any]) -> str:
     meta = {
-        "Type 2 Diabetes / Prediabetes Screening": "You already have prediabetes and a family history of diabetes — regular A1C tests catch the progression early when it's most reversible.",
+        "Type 2 Diabetes / Prediabetes Screening": "You already have prediabetes and a family history of diabetes - regular A1C tests catch the progression early when it's most reversible.",
         "Breast Cancer Screening (Mammogram)": "Family history of breast cancer raises your personal risk; screening finds cancer earlier when it's easier to treat.",
-        "Colorectal Cancer Screening": "Colon cancer screening prevents cancer, not just catches it — polyps can be removed before turning cancerous.",
+        "Colorectal Cancer Screening": "Colon cancer screening prevents cancer, not just catches it - polyps can be removed before turning cancerous.",
         "Cholesterol (Lipid Panel)": "Prediabetes often travels with high cholesterol; treating both together significantly lowers heart-attack risk.",
         "Blood Pressure Screening": "High blood pressure is silent but very treatable. Annual checks keep you ahead of it.",
         "Cervical Cancer Screening (Pap/HPV)": "Routine Pap/HPV catches precancerous changes years before cancer develops.",
         "Depression Screening": "Quick annual check-in so nothing slips under the radar while you manage other conditions.",
-        "Flu Vaccine": "Reduces severe flu illness — especially useful with chronic conditions like prediabetes.",
+        "Flu Vaccine": "Reduces severe flu illness - especially useful with chronic conditions like prediabetes.",
     }
     return meta.get(name, "Recommended by USPSTF guidelines for patients like you.")
 
 
 def _where_to_go(name: str) -> str:
     mapping = {
-        "Type 2 Diabetes / Prediabetes Screening": "Brazos Valley Community Health Center — primary care can order A1C",
+        "Type 2 Diabetes / Prediabetes Screening": "Brazos Valley Community Health Center - primary care can order A1C",
         "Breast Cancer Screening (Mammogram)": "Baylor Scott & White College Station or St. Joseph Health Bryan imaging",
         "Colorectal Cancer Screening": "Ask your BVCHC provider for a FIT kit (free/low-cost) or a referral",
         "Cholesterol (Lipid Panel)": "Any primary-care visit can include a fasting lipid panel",
@@ -158,7 +158,7 @@ def _render_timeline(screenings: list[dict[str, Any]]) -> None:
         start = today + timedelta(days=max(offset_days - 30, -45))
         end = today + timedelta(days=offset_days + 30)
         rows.append({
-            "Screening": s.get("name", f"Screening {idx}"),
+            "Screening": f"<b>{s.get('name', f'Screening {idx}')}</b>",
             "Start": start,
             "Finish": end,
             "Status": status,
@@ -174,13 +174,29 @@ def _render_timeline(screenings: list[dict[str, Any]]) -> None:
         color="Status",
         color_discrete_map=STATUS_COLORS,
     )
-    fig.update_yaxes(autorange="reversed")
-    fig.add_vline(x=today, line_dash="dash", line_color="#1B4F72")
+    fig.update_yaxes(
+        autorange="reversed",
+        title=dict(text="<b>Screening</b>", font=dict(size=14, color="#1B4F72", family="Plus Jakarta Sans")),
+        tickfont=dict(size=13, color="#1B4F72", family="Plus Jakarta Sans"),
+    )
+    fig.update_xaxes(
+        title=dict(text="<b>Timeline</b>", font=dict(size=14, color="#1B4F72", family="Plus Jakarta Sans")),
+        tickfont=dict(size=13, color="#1C2833", family="Inter"),
+    )
+    fig.add_vline(x=today, line_dash="dash", line_color="#1B4F72", line_width=2)
     fig.update_layout(
-        height=max(260, 50 * len(rows) + 80),
-        margin=dict(t=30, b=20),
+        height=max(260, 50 * len(rows) + 100),
+        margin=dict(t=20, b=30, l=20, r=20),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(family="Inter, sans-serif", size=13),
+        legend=dict(
+            title=dict(text="<b>Status</b>", font=dict(size=13, color="#1B4F72")),
+            font=dict(size=12, color="#1C2833"),
+            bgcolor="rgba(255,255,255,0.8)",
+            bordercolor="#D4E6F1",
+            borderwidth=1,
+        ),
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -189,7 +205,7 @@ def render() -> None:
     hero(
         icon="🩺",
         title="Preventive Screen Check",
-        subtitle="Tell me about you — I'll build a personalized USPSTF screening timeline.",
+        subtitle="Tell me about you - I'll build a personalized USPSTF screening timeline.",
     )
 
     if st.button("🎬 Load demo profile"):
@@ -197,13 +213,34 @@ def render() -> None:
 
     defaults = st.session_state.get("screen_profile", {})
 
-    col1, col2, col3 = st.columns(3)
-    age = col1.number_input("Age", min_value=0, max_value=120, value=int(defaults.get("age", 35)))
-    sex = col2.selectbox("Sex assigned at birth", ["Female", "Male"], index=0 if defaults.get("sex", "Female") == "Female" else 1)
-    smoking = col3.selectbox(
+    col_age, col_sex = st.columns([1, 2])
+    age = col_age.number_input("Age", min_value=0, max_value=120, value=int(defaults.get("age", 35)))
+    sex_options = ["Female", "Male"]
+    sex = col_sex.radio(
+        "Sex assigned at birth",
+        sex_options,
+        index=sex_options.index(defaults.get("sex", "Female")),
+        horizontal=True,
+        key="sc_sex",
+    )
+
+    smoking_options = ["Never smoked", "Former smoker", "Current smoker"]
+    smoking = st.radio(
         "Smoking status",
-        ["Never smoked", "Former smoker", "Current smoker"],
-        index=["Never smoked", "Former smoker", "Current smoker"].index(defaults.get("smoking", "Never smoked")),
+        smoking_options,
+        index=smoking_options.index(defaults.get("smoking", "Never smoked")),
+        horizontal=True,
+        key="sc_smoking",
+    )
+
+    drinking_options = ["Never", "Occasional", "Moderate", "Heavy"]
+    drinking = st.radio(
+        "Drinking status",
+        drinking_options,
+        index=drinking_options.index(defaults.get("drinking", "Never")),
+        horizontal=True,
+        key="sc_drinking",
+        help="Never = 0 / Occasional = <3 drinks/week / Moderate = 3–7 / Heavy = 8+",
     )
 
     st.markdown("**Family history** (check all that apply)")
@@ -227,6 +264,7 @@ def render() -> None:
             "age": age,
             "sex": sex,
             "smoking": smoking,
+            "drinking": drinking,
             "family_history": family,
             "conditions": conditions,
         }
@@ -272,17 +310,3 @@ def render() -> None:
                 )
 
     st.caption(f"💡 Lifestyle: {analysis.get('lifestyle_notes', '')}")
-
-    profile = st.session_state.get("screen_profile_last", {})
-    pdf_bytes = generate_screening_report_pdf(
-        profile=profile,
-        screenings=analysis.get("screenings", []),
-        top_priority=analysis.get("top_priority", ""),
-        lifestyle=analysis.get("lifestyle_notes", ""),
-    )
-    st.download_button(
-        "⬇️ Download screening report (PDF)",
-        data=pdf_bytes,
-        file_name="MedBridge_Screening_Report.pdf",
-        mime="application/pdf",
-    )

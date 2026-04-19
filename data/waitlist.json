@@ -15,7 +15,7 @@
       "acuity": 9,
       "days_waiting": 34,
       "scheduled_for": "2026-07-15",
-      "visit_type": "New patient — urgent",
+      "visit_type": "New patient - urgent",
       "insurance": "Uninsured",
       "zip": "77807",
       "escalated": false,
@@ -33,13 +33,13 @@
       "insurance": "Medicare",
       "zip": "77803",
       "escalated": true,
-      "note": "Escalated yesterday — SOB on short walks."
+      "note": "Escalated yesterday - SOB on short walks."
     },
     {
       "id": "P-1051",
       "name": "Emily Nguyen",
       "age": 29,
-      "condition": "Pregnancy — first prenatal visit",
+      "condition": "Pregnancy - first prenatal visit",
       "acuity": 8,
       "days_waiting": 21,
       "scheduled_for": "2026-07-02",
@@ -47,7 +47,7 @@
       "insurance": "CHIP",
       "zip": "77840",
       "escalated": false,
-      "note": "Spotting reported Monday — OB triage flagged."
+      "note": "Spotting reported Monday - OB triage flagged."
     },
     {
       "id": "P-1109",
@@ -67,7 +67,7 @@
       "id": "P-1112",
       "name": "Sarah Patel",
       "age": 9,
-      "condition": "Asthma — recurring nighttime cough",
+      "condition": "Asthma - recurring nighttime cough",
       "acuity": 6,
       "days_waiting": 18,
       "scheduled_for": "2026-06-30",
@@ -110,7 +110,7 @@
       "scheduled_time": "2:45 PM",
       "flexibility_score": 0.61,
       "preferred_reward": "$15 ride-share credit",
-      "notes": "Works remote — high flexibility."
+      "notes": "Works remote - high flexibility."
     },
     {
       "id": "R-2301",
@@ -125,8 +125,8 @@
     }
   ],
   "live_cancellations": [
-    {"slot_time": "Today, 2:15 PM", "canceled_by": "R-2201 — Michael Reed", "reason": "Car trouble", "minutes_ago": 2},
-    {"slot_time": "Today, 4:40 PM", "canceled_by": "R-2368 — Kevin Chen", "reason": "Work conflict", "minutes_ago": 11},
-    {"slot_time": "Tomorrow, 9:00 AM", "canceled_by": "R-2419 — Ashley Morgan", "reason": "Childcare", "minutes_ago": 24}
+    {"slot_time": "Today, 2:15 PM", "canceled_by": "R-2201 - Michael Reed", "reason": "Car trouble", "minutes_ago": 2},
+    {"slot_time": "Today, 4:40 PM", "canceled_by": "R-2368 - Kevin Chen", "reason": "Work conflict", "minutes_ago": 11},
+    {"slot_time": "Tomorrow, 9:00 AM", "canceled_by": "R-2419 - Ashley Morgan", "reason": "Childcare", "minutes_ago": 24}
   ]
 }

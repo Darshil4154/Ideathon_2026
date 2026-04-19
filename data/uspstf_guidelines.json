@@ -103,7 +103,7 @@
     {
       "name": "Depression Screening",
       "grade": "B",
-      "recommendation": "Screen all adults — especially pregnant/postpartum women and older adults.",
+      "recommendation": "Screen all adults - especially pregnant/postpartum women and older adults.",
       "frequency_months": 12,
       "age_min": 18,
       "age_max": 120,

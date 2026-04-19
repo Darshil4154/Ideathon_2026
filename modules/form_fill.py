@@ -1,4 +1,4 @@
-"""Module 6: Insurance FormFill — conversational eligibility + pre-filled application."""
+"""Module 6: Insurance FormFill - conversational eligibility + pre-filled application."""
 
 from __future__ import annotations
 
@@ -12,16 +12,15 @@ from utils.ai_engine import (
     call_claude,
     extract_json,
 )
-from utils.pdf_generator import generate_application_summary_pdf
-from utils.ui import hero, section_label
+from utils.ui import hero
 
 QUESTIONS = [
     {"key": "name", "text": "What's your name? (This goes on your application summary.)", "kind": "text", "placeholder": "First Last"},
     {"key": "state", "text": "What state do you live in?", "kind": "text", "placeholder": "Texas"},
     {"key": "household", "text": "How many people are in your household?", "kind": "number", "min": 1, "max": 15},
     {"key": "income", "text": "What is your approximate annual household income (in US dollars)?", "kind": "number", "min": 0, "max": 500000},
-    {"key": "insurance", "text": "Do you currently have any health insurance?", "kind": "select", "options": ["No, I'm uninsured", "Yes — employer plan", "Yes — Medicaid/CHIP", "Yes — Medicare", "Yes — Marketplace plan", "Other"]},
-    {"key": "family_status", "text": "Are you pregnant or do you have children under 19?", "kind": "select", "options": ["No", "Yes — pregnant", "Yes — children under 19", "Yes — both"]},
+    {"key": "insurance", "text": "Do you currently have any health insurance?", "kind": "select", "options": ["No, I'm uninsured", "Yes - employer plan", "Yes - Medicaid/CHIP", "Yes - Medicare", "Yes - Marketplace plan", "Other"]},
+    {"key": "family_status", "text": "Are you pregnant or do you have children under 19?", "kind": "select", "options": ["No", "Yes - pregnant", "Yes - children under 19", "Yes - both"]},
     {"key": "disability", "text": "Do you have a disability that affects your ability to work?", "kind": "select", "options": ["No", "Yes", "Applying for SSDI/SSI"]},
     {"key": "age", "text": "What is your age?", "kind": "number", "min": 0, "max": 120},
 ]
@@ -55,7 +54,7 @@ def _demo_analysis(answers: dict[str, Any]) -> dict[str, Any]:
         eligibility.append({
             "program": "Medicare",
             "likely_qualifies": True,
-            "reason": ("You are 65 or older — Medicare enrollment is automatic for many and essential for the rest."
+            "reason": ("You are 65 or older - Medicare enrollment is automatic for many and essential for the rest."
                        if age >= 65 else "People receiving SSDI for 24+ months qualify for Medicare regardless of age."),
             "how_to_apply": "Apply at ssa.gov or call 1-800-772-1213.",
         })
@@ -64,7 +63,7 @@ def _demo_analysis(answers: dict[str, Any]) -> dict[str, Any]:
         eligibility.append({
             "program": "Medicaid / CHIP",
             "likely_qualifies": True,
-            "reason": f"You have children or are pregnant, with household income at about {pct}% of the Federal Poverty Level — you likely qualify in Texas.",
+            "reason": f"You have children or are pregnant, with household income at about {pct}% of the Federal Poverty Level - you likely qualify in Texas.",
             "how_to_apply": "Apply at yourtexasbenefits.com or dial 2-1-1 for a navigator.",
         })
     elif pct <= 138 and disabled:
@@ -79,7 +78,7 @@ def _demo_analysis(answers: dict[str, Any]) -> dict[str, Any]:
         eligibility.append({
             "program": "Healthcare.gov Marketplace (ACA) with subsidies",
             "likely_qualifies": True,
-            "reason": f"At ~{pct}% FPL, you qualify for premium tax credits — in many cases reducing monthly premiums to very low or $0 levels.",
+            "reason": f"At ~{pct}% FPL, you qualify for premium tax credits - in many cases reducing monthly premiums to very low or $0 levels.",
             "how_to_apply": "Enroll at healthcare.gov or call 1-800-318-2596.",
         })
 
@@ -87,13 +86,13 @@ def _demo_analysis(answers: dict[str, Any]) -> dict[str, Any]:
         eligibility.append({
             "program": "Healthcare.gov Marketplace (ACA)",
             "likely_qualifies": True,
-            "reason": "You can still buy a Marketplace plan at full price — and revisit subsidies if your income changes.",
+            "reason": "You can still buy a Marketplace plan at full price - and revisit subsidies if your income changes.",
             "how_to_apply": "healthcare.gov",
         })
 
     next_steps = [
         "Gather documents: photo ID, Social Security numbers, pay stubs or tax return, proof of Texas residence.",
-        "Start with 2-1-1 (Texas HHSC navigator) — one call covers Medicaid, CHIP, and SNAP screening.",
+        "Start with 2-1-1 (Texas HHSC navigator) - one call covers Medicaid, CHIP, and SNAP screening.",
         "If you don't qualify for Medicaid, move to healthcare.gov the same week to lock in a Marketplace plan.",
     ]
 
@@ -108,7 +107,7 @@ def _demo_analysis(answers: dict[str, Any]) -> dict[str, Any]:
         f"Disability: {answers.get('disability', '')}\n"
         f"Age: {age}\n\n"
         "Likely programs:\n"
-        + "\n".join(f"  - {item['program']} — {item['reason']}" for item in eligibility)
+        + "\n".join(f" - {item['program']} - {item['reason']}" for item in eligibility)
         + "\n\nPrepared: " + datetime.today().strftime("%B %d, %Y")
     )
 
@@ -138,7 +137,7 @@ def render() -> None:
     hero(
         icon="📋",
         title="Insurance FormFill",
-        subtitle="Answer 8 quick questions — I'll find the insurance programs you qualify for.",
+        subtitle="Answer 8 quick questions - I'll find the insurance programs you qualify for.",
     )
 
     if "formfill_answers" not in st.session_state:
@@ -181,7 +180,7 @@ def render() -> None:
                 st.rerun()
         return
 
-    # Done — run analysis
+    # Done - run analysis
     answers = st.session_state.formfill_answers
     with st.spinner("Matching programs based on your answers..."):
         result = _run_analysis(answers)
@@ -208,14 +207,6 @@ def render() -> None:
     summary_text = result.get("application_summary", "")
     st.markdown("### 📄 Your pre-filled application summary")
     st.text_area("Summary", summary_text, height=300, label_visibility="collapsed")
-
-    pdf_bytes = generate_application_summary_pdf(summary_text)
-    st.download_button(
-        "⬇️ Download application summary (PDF)",
-        data=pdf_bytes,
-        file_name="MedBridge_Application_Summary.pdf",
-        mime="application/pdf",
-    )
 
     if st.button("🔄 Start over"):
         st.session_state.formfill_answers = {}

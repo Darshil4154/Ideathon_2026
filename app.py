@@ -1,4 +1,4 @@
-"""MedBridge AI — Your AI Healthcare Copilot.
+"""MedBridge AI - Your AI Healthcare Copilot.
 
 Main Streamlit entrypoint. Provides sidebar navigation across a Home dashboard
 and six feature modules, plus a shared Demo Mode toggle so the app works
@@ -22,7 +22,7 @@ from modules import (
 from utils.ai_engine import has_api_key
 
 st.set_page_config(
-    page_title="MedBridge AI — Your AI Healthcare Copilot",
+    page_title="MedBridge AI - Your AI Healthcare Copilot",
     page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -39,7 +39,7 @@ def _footer() -> None:
     st.markdown(
         """
         <div class='mb-footer'>
-            ⚠️ Not medical advice — consult a licensed provider. Eligibility info is illustrative.
+            ⚠️ Not medical advice - consult a licensed provider. Eligibility info is illustrative.
         </div>
         """,
         unsafe_allow_html=True,
